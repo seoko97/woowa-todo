@@ -9,5 +9,6 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
+  exclude: ["node_modules", "dist"],
   rules: {},
 };
