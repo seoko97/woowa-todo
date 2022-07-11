@@ -1,0 +1,25 @@
+{
+	"name": "web_todo_7",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/woowa-techcamp-2022/web-todo-7.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/woowa-techcamp-2022/web-todo-7/issues"
+	},
+	"homepage": "https://github.com/woowa-techcamp-2022/web-todo-7#readme",
+	"devDependencies": {
+		"eslint": "^8.19.0",
+		"eslint-config-prettier": "^8.5.0",
+		"prettier": "^2.7.1"
+	}
+}
