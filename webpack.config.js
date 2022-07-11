@@ -8,11 +8,11 @@ const isProduction = process.env.NODE_ENV === "production";
 
 module.exports = {
   devtool: "source-map",
-  mode: isProduction ? "production`" : "development",
+  mode: isProduction ? "production" : "development",
   entry: "./public/js/index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    filename: isProduction ? "[fullhash].bundle.js" : "bundle.js",
     clean: true,
     publicPath: "/",
   },
@@ -37,11 +37,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({ template: "./public/index.html" }),
     new MiniCssExtractPlugin({
-      filename: "[name].css",
+      filename: isProduction ? "[fullhash].css" : "[name].css",
     }),
   ],
   optimization: {
-    minimize: true,
+    minimize: isProduction,
     minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
   },
   devServer: {

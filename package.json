@@ -15,9 +15,10 @@
   },
   "homepage": "https://github.com/woowa-techcamp-2022/web-todo-7#readme",
   "scripts": {
-    "build": "webpack --mode=production",
-    "start": "npm run build && NODE_ENV=production  node ./src/index.js",
-    "dev": "node ./src/index.js"
+    "build": "webpack",
+    "build:prod": "NODE_ENV=production webpack",
+    "dev": "node ./src/index.js",
+    "start": "npm run build:prod && NODE_ENV=production  node ./src/index.js"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
