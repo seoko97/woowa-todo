@@ -4,14 +4,17 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
-module.exports = (argv) => ({
+const isProduction = process.env.NODE_ENV === "production";
+
+module.exports = {
   devtool: "source-map",
-  mode: argv.mode || "development",
+  mode: isProduction ? "production`" : "development",
   entry: "./public/js/index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
     clean: true,
+    publicPath: "/",
   },
   module: {
     rules: [
@@ -42,11 +45,6 @@ module.exports = (argv) => ({
     minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
   },
   devServer: {
-    static: {
-      directory: path.join(__dirname, "public"),
-    },
-    compress: true,
-    port: 3000,
-    open: true,
+    static: "./dist",
   },
-});
+};
