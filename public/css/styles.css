@@ -1,3 +1,21 @@
+:root {
+  --colors-black: #010101;
+  --colors-white: #ffffff;
+  --colors-blue: #0075de;
+  --colors-dark-blue: #00529b;
+  --colors-light-blue: #86c6ff;
+  --colors-red: #ff4343;
+  --colors-white-red: #ffeeec;
+
+  --colors-gray-300: #828282;
+  --colors-gray-400: #bdbdbd;
+  --colors-gray-500: #e0e0e0;
+  --colors-gray-600: #f5f5f7;
+
+  --z-index-sidebar: 500;
+  --z-index-modal: 1000;
+}
+
 h1,
 h2,
 h3,
@@ -10,6 +28,6 @@ h6 {
 li,
 ul,
 ol {
-  list-style: none;
   padding: 0;
+  list-style: none;
 }

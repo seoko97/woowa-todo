@@ -1,5 +1,5 @@
-import "../styles/normalize.css";
-import "../styles/styles.css";
+import "../css/normalize.css";
+import "../css/styles.css";
 
 export class App {
   constructor($element) {
