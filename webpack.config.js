@@ -32,6 +32,10 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.svg$/i,
+        loader: "svg-inline-loader",
+      },
     ],
   },
   plugins: [
