@@ -11,9 +11,14 @@
   --colors-gray-400: #bdbdbd;
   --colors-gray-500: #e0e0e0;
   --colors-gray-600: #f5f5f7;
+  --colors-backdrop: rgba(1, 1, 1, 0.4);
 
   --z-index-sidebar: 500;
   --z-index-modal: 1000;
+
+  --shadow-todo: 0px 1px 30px rgba(224, 224, 224, 0.3);
+  --shadow-sidebar: 0px 0px 4px rgba(204, 204, 204, 0.5),
+    0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
 html,
