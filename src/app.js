@@ -1,11 +1,8 @@
 const path = require("path");
-const dotenv = require("dotenv");
 const logger = require("morgan");
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const webpackConfig = require("./config/webpackConfig");
-
-dotenv.config();
 
 const app = express();
 
