@@ -1,6 +1,6 @@
 const path = require("path");
-const express = require("express");
 const logger = require("morgan");
+const express = require("express");
 const cookieParser = require("cookie-parser");
 const webpackConfig = require("./config/webpackConfig");
 
