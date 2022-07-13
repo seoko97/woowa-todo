@@ -6,6 +6,8 @@ import MenuIcon from "../../../images/menu.svg";
 export default class Header extends Component {
   constructor($parent) {
     super($parent, "header", { class: "header" });
+
+    this.render();
   }
 
   mount() {
