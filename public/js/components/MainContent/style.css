@@ -1,0 +1,7 @@
+.main-content {
+  display: flex;
+  padding: 0 80px;
+  width: auto;
+  overflow-x: auto;
+  user-select: none;
+}

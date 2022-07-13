@@ -12,13 +12,11 @@ export default class Component {
     for (const attr in $attrs) {
       this.$element.setAttribute(attr, $attrs[attr]);
     }
-    this.render();
     $parent.append(this.$element);
   }
 
   setState(newState) {
     this.$state = {
-      ...this.$state,
       ...newState,
     };
     this.render();
