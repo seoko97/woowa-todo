@@ -1,0 +1,112 @@
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 7rem;
+  padding: 0 5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--colors-gray-600);
+}
+
+.header__logo {
+  font-size: 2rem;
+}
+
+.header__menu-btn,
+.sidebar__close-btn {
+  width: 3rem;
+  height: 3rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  outline: none;
+  margin: 0;
+  border: 0;
+  border-radius: 9999px;
+  background-color: transparent;
+
+  cursor: pointer;
+  transition: background-color 0.25s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+.header__menu-btn:hover,
+.sidebar__close-btn:hover {
+  background-color: var(--colors-gray-500);
+}
+
+.header__menu-btn > svg,
+.sidebar__close-btn > svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  width: 28rem;
+  background-color: var(--colors-white);
+  box-shadow: var(--shadow-sidebar);
+  z-index: var(--z-index-sidebar);
+  transform: translateX(100%);
+  transition: transform 0.25s ease-in-out;
+}
+
+.sidebar__backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: none;
+  opacity: 0;
+}
+
+.is-sidebar-open .sidebar {
+  transform: translateX(0);
+}
+
+.is-sidebar-open .sidebar__backdrop {
+  display: block;
+}
+
+.sidebar__header {
+  height: 7rem;
+  padding: 0 5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.sidebar__log-list {
+  padding: 0 5rem 0 2.5rem;
+}
+
+.sidebar__log {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.log__content {
+  margin: 0.5rem 0;
+
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+}
+
+.log__created-at {
+  font-size: 0.875rem;
+  color: var(--colors-gray-300);
+}

@@ -1,3 +1,4 @@
+import "./style.css";
 import Component from "../component";
 import MenuIcon from "../../../images/menu.svg";
 import CloseIcon from "../../../images/close.svg";
