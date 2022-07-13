@@ -1,9 +1,11 @@
 import "./style.css";
-import Component from "../component";
 import LogList from "../LogList";
+import Component from "../component";
 import CloseIcon from "../../../images/close.svg";
 
 export default class Sidebar extends Component {
+  $logList;
+
   constructor($parent) {
     super($parent, "aside", { class: "sidebar" });
 
@@ -17,6 +19,6 @@ export default class Sidebar extends Component {
       </div>
     `;
 
-    new LogList(this.$element);
+    this.$logList = new LogList(this.$element);
   }
 }

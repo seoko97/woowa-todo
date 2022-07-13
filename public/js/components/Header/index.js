@@ -4,6 +4,8 @@ import Sidebar from "../Sidebar";
 import MenuIcon from "../../../images/menu.svg";
 
 export default class Header extends Component {
+  $sidebar;
+
   constructor($parent) {
     super($parent, "header", { class: "header" });
 
@@ -16,11 +18,12 @@ export default class Header extends Component {
       <button class="header__menu-btn">${MenuIcon}</button>
       <div class="sidebar__backdrop"></div>
     `;
-    new Sidebar(this.$element);
+    this.$sidebar = new Sidebar(this.$element);
   }
 
   onOpenSidebar() {
     this.$element.classList.toggle("is-sidebar-open", true);
+    this.$sidebar.$logList.getLogListByOpened();
   }
 
   onCloseSidebar() {
