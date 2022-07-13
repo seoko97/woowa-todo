@@ -1,7 +1,7 @@
 import "./style.css";
 import Component from "../component";
+import Sidebar from "../Sidebar";
 import MenuIcon from "../../../images/menu.svg";
-import CloseIcon from "../../../images/close.svg";
 
 export default class Header extends Component {
   constructor($parent) {
@@ -13,14 +13,8 @@ export default class Header extends Component {
       <h1 class="header__logo">TO DO LIST</h1>
       <button class="header__menu-btn">${MenuIcon}</button>
       <div class="sidebar__backdrop"></div>
-      <aside class="sidebar">
-        <div class="sidebar__header">
-          <button class="sidebar__close-btn">${CloseIcon}</button>
-        </div>
-        <ul class="sidebar__log-list">
-        </ul>
-      </aside>
     `;
+    new Sidebar(this.$element);
   }
 
   onOpenSidebar() {
