@@ -1,5 +1,6 @@
 import "./style.css";
 import Component from "../component";
+import LogList from "../LogList";
 import CloseIcon from "../../../images/close.svg";
 
 export default class Sidebar extends Component {
@@ -14,8 +15,8 @@ export default class Sidebar extends Component {
       <div class="sidebar__header">
         <button class="sidebar__close-btn">${CloseIcon}</button>
       </div>
-      <ul class="sidebar__log-list">
-      </ul>
     `;
+
+    new LogList(this.$element);
   }
 }
