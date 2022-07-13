@@ -38,10 +38,11 @@ function getSecondDiff(startDate, endDate) {
 
 export function getDateDiff(startDate, endDate) {
   const secondDiff = getSecondDiff(startDate, endDate);
-  for (const { diff, label } of DATE_DIFF) {
-    if (secondDiff < diff) {
-      return `${secondDiff % diff}${label}`;
-    }
+  const currentDiff = DATE_DIFF.find(({ diff }) => secondDiff < diff);
+
+  if (!currentDiff) {
+    return `${Math.floor(secondDiff / ONE_YEAR)}${label}`;
   }
-  return `${Math.floor(secondDiff / ONE_YEAR)}${label}`;
+
+  return `${secondDiff % currentDiff.diff}${currentDiff.label}`;
 }
