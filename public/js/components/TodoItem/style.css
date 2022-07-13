@@ -1,0 +1,83 @@
+.todo-item {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: 0px 1px 30px rgba(224, 224, 224, 0.3);
+
+  row-gap: 16px;
+  padding: 14px;
+  border-radius: 8px;
+  background-color: #fff;
+
+  cursor: move;
+}
+.todo-item.focus {
+  border: 1px solid #0075de;
+}
+
+.todo-item.create {
+  display: none;
+  cursor: default;
+}
+
+.todo-item.drag {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5),
+    0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.todo-item.place {
+  opacity: 0.4;
+}
+
+.todo-item.delete {
+  border: 1px solid #ff4343;
+  background-color: #ffeeec;
+}
+.todo-item.delete > .icon.close > svg {
+  fill: #ff4343;
+}
+
+.todo-item > .icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.todo-item_btn-container {
+  display: flex;
+  column-gap: 8px;
+}
+
+.todo-item_btn-container > button {
+  flex: 1;
+}
+
+.todo-item_content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+.todo-item_content > .title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.todo-item_content > .description {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.todo-item_content > input {
+  border: 0;
+  background-color: none;
+  padding: 2px;
+}
+
+.todo-item_content > input:focus {
+  outline: none;
+}
