@@ -1,0 +1,17 @@
+.log-item {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.log-item__content {
+  margin: 0.5rem 0;
+
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+}
+
+.log-item__created-at {
+  font-size: 0.875rem;
+  color: var(--colors-gray-300);
+}
