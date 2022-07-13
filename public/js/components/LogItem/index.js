@@ -1,5 +1,6 @@
 import "./style.css";
 import Component from "../component";
+import { getDateDiff } from "../../utils/date";
 
 export default class LogItem extends Component {
   constructor($parent, $state) {
@@ -44,13 +45,14 @@ export default class LogItem extends Component {
 
   template() {
     const { log } = this.$state;
+    const currentDate = new Date();
     return `
       <span class="log-item__username">
         @${log.username}
       </span>
       ${this.createLogContentTemplate(log)}
       <span class="log-item__created-at">
-        ${log.createdAt}
+        ${getDateDiff(log.createdAt, currentDate)}
       </span>
     `;
   }
