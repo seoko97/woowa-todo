@@ -46,6 +46,7 @@ button {
   color: #828282;
   background-color: #e0e0e0;
   transition: background-color 0.2s;
+  font-size: 14px;
 }
 
 .button:hover {
@@ -65,6 +66,7 @@ button {
 
 .button.primary:disabled {
   background-color: #86c6ff;
+  cursor: default;
 }
 
 .icon > svg {
@@ -74,10 +76,13 @@ button {
   transition: fill 0.2s;
   cursor: pointer;
 }
+.icon > svg.active {
+  fill: #0075de;
+}
 
 .icon > svg:hover {
   fill: #0075de;
 }
-.icon > svg.close:hover {
+.icon.close > svg:hover {
   fill: #ff4343;
 }
