@@ -6,6 +6,7 @@ import { isBeforeCurrentElement } from "../../lib/isBeforeCurrentElement";
 import "./style.css";
 import { createCustomEvent, dispatchCutomEvent } from "../../lib/customEvent";
 import { requestGetSection } from "../../api/section";
+import { requestMoveTodo } from "../../api/todo";
 
 export default class TodoSection extends Component {
   $header;
@@ -111,20 +112,34 @@ export default class TodoSection extends Component {
     const { pageX, pageY } = e;
 
     const elemBelow = document.elementFromPoint(pageX, pageY);
-    const section = elemBelow.closest(".todo-section");
+    const todos = this.$state.todos;
 
-    console.log(this.$currentNode.previousSibling, this.$currentNode);
+    const fromSection = this.$element;
+    const toSection = elemBelow.closest(".todo-section");
+    const prevTodo = this.$currentNode.previousSibling;
+    const currentTodo = todos.find(
+      (todo) => todo.id === parseInt(this.$currentNode.dataset.id)
+    );
 
-    console.log({
-      from: this.$state.id,
-      to: section.dataset.id,
-      prevTodoId: this.$currentNode.previousSibling,
-      currentTodoId: this.$currentNode,
-    });
+    const data = {
+      fromSection: fromSection.dataset,
+      toSection: toSection.dataset,
+      currentTodo: {
+        id: currentTodo.id,
+        title: currentTodo.title,
+      },
+      prevTodo: prevTodo.dataset.id,
+    };
+
     this.$currentNode = null;
     this.$cloneNode = null;
 
     document.body.removeEventListener("mousemove", this.$mousemove);
+
+    requestMoveTodo(data).then(() => {
+      dispatchCutomEvent(`getSection${fromSection.dataset.id}`, fromSection);
+      dispatchCutomEvent(`getSection${toSection.dataset.id}`, toSection);
+    });
   }
 
   onMouseDownItem(e) {
