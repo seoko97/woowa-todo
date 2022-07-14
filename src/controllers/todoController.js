@@ -29,7 +29,12 @@ function deleteTodo(req, res) {
 
 function moveTodo(req, res) {
   const todoId = req.params.id;
-  res.send(`${todoId} MOVED`);
+  const { fromSectionId, toSectionId, prevTodoId } = req.body;
+  todoService
+    .moveTodo(todoId, fromSectionId, toSectionId, prevTodoId)
+    .then(() => {
+      res.send(`${todoId} MOVED`);
+    });
 }
 
 module.exports = {
