@@ -1,0 +1,23 @@
+import Component from "../component";
+import CloseIcon from "../../../images/close.svg";
+import "./style.css";
+
+export default class BaseItem extends Component {
+  constructor($parent, $attrs, $state, $props) {
+    super($parent, "li", $attrs, $state, $props);
+
+    this.render();
+  }
+
+  mount() {
+    const { title, description } = this.$state;
+
+    this.$element.innerHTML = `
+        <span class="icon close">${CloseIcon}</span>
+        <div class="todo-item_content">
+          <h3 class="title">${title}</h3>
+          <p class="description">${description}</p>
+        </div>
+      `;
+  }
+}
