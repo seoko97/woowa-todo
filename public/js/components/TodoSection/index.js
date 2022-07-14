@@ -4,6 +4,7 @@ import SectionList from "./SectionList";
 import { isBeforeCurrentElement } from "../../lib/isBeforeCurrentElement";
 
 import "./style.css";
+import { dispatchCutomEvent } from "../../lib/customEvent";
 
 export default class TodoSection extends Component {
   $header;
@@ -25,28 +26,35 @@ export default class TodoSection extends Component {
 
   setEvent() {
     this.addEvent("click", ".icon.plus", this.showCreateForm.bind(this));
-    this.addEvent("mousedown", ".todo-item", (e) => {
-      const $clickedItem = e.target.closest(".todo-item");
-
-      if (
-        $clickedItem.classList.contains("edit") ||
-        $clickedItem.classList.contains("create")
-      )
-        return;
-
+    this.addEvent("mousedown", ".todo-item.default", (e) => {
       if (e.detail < 2) {
-        if (e.target.closest(".close")) this.deleteItem(e);
+        if (e.target.closest(".close")) this.openModal(e);
         else this.onMouseDownItem(e);
       } else {
-        const newState = { ...this.$list.$state };
-        const seletedTodo = newState.todos.find(
-          (todo) => todo.id === $clickedItem.dataset.id
-        );
-        seletedTodo.status = "EDIT";
-
-        this.$list.setState(newState);
+        // 더블클릭
+        this.showEditForm(e);
       }
     });
+  }
+
+  openModal(e) {
+    const $modal = document.getElementById("modal");
+
+    this.deleteItem(e);
+    dispatchCutomEvent("openModalAndSetTodo", $modal, {
+      todo: "todo",
+    });
+  }
+
+  showEditForm(e) {
+    const $clickedItem = e.target.closest(".todo-item");
+    const newState = { ...this.$list.$state };
+    const seletedTodo = newState.todos.find(
+      (todo) => todo.id === $clickedItem.dataset.id
+    );
+    seletedTodo.status = "EDIT";
+
+    this.$list.setState(newState);
   }
 
   showCreateForm(e) {
@@ -60,7 +68,12 @@ export default class TodoSection extends Component {
   }
 
   deleteItem(e) {
+    const $close = e.target.closest(".icon.close");
+
+    if (!$close) return;
+
     const $item = e.target.closest(".todo-item");
+
     $item.classList.add("delete");
   }
 
@@ -79,13 +92,14 @@ export default class TodoSection extends Component {
 
     const elemBelow = document.elementFromPoint(pageX, pageY);
     const section = elemBelow.closest(".todo-section");
-    const $li = elemBelow.closest("li");
 
     console.log(this.$currentNode.previousSibling, this.$currentNode);
 
     console.log({
-      from: this.$state.title,
-      to: section.dataset.title,
+      from: this.$state.id,
+      to: section.dataset.id,
+      prevTodoId: this.$currentNode.previousSibling,
+      currentTodoId: this.$currentNode,
     });
     this.$currentNode = null;
     this.$cloneNode = null;
