@@ -3,7 +3,7 @@ const todoService = require("../services/todoService");
 function createTodo(req, res) {
   const { sectionId, title, description } = req.body;
   todoService
-    .create(sectionId, title, description)
+    .createTodo(sectionId, title, description)
     .then(() => {
       res.send("CREATED");
     })
@@ -15,7 +15,7 @@ function createTodo(req, res) {
 function updateTodo(req, res) {
   const todoId = req.params.id;
   const { title, description } = req.body;
-  todoService.update(todoId, title, description).then(() => {
+  todoService.updateTodo(todoId, title, description).then(() => {
     res.send(`${todoId} UPDATED`);
   });
 }

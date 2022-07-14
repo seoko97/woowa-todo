@@ -1,6 +1,6 @@
 const pool = require("../db");
 
-function create(sectionId, title, description) {
+function createTodo(sectionId, title, description) {
   return pool
     .query(
       `UPDATE Todo SET priority = priority + 1 WHERE sectionId = ?;`,
@@ -15,7 +15,7 @@ function create(sectionId, title, description) {
     });
 }
 
-function update(todoId, title, description) {
+function updateTodo(todoId, title, description) {
   return pool.query(`Update Todo SET title = ?, description = ? WHERE id = ?`, [
     title,
     description,
@@ -27,4 +27,4 @@ function deleteTodo(todoId) {
   return pool.query(`DELETE FROM Todo WHERE id = ?`, todoId);
 }
 
-module.exports = { create, update, deleteTodo };
+module.exports = { createTodo, updateTodo, deleteTodo };
