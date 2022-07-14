@@ -22,4 +22,9 @@ function update(todoId, title, description) {
     todoId,
   ]);
 }
-module.exports = { create, update };
+
+function deleteTodo(todoId) {
+  return pool.query(`DELETE FROM Todo WHERE id = ?`, todoId);
+}
+
+module.exports = { create, update, deleteTodo };

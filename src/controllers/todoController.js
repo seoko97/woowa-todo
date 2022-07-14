@@ -22,7 +22,9 @@ function updateTodo(req, res) {
 
 function deleteTodo(req, res) {
   const todoId = req.params.id;
-  res.send(`${todoId} DELETED`);
+  todoService.deleteTodo(todoId).then(() => {
+    res.send(`${todoId} DELETED`);
+  });
 }
 
 function moveTodo(req, res) {
