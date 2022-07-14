@@ -55,10 +55,13 @@ export default class TodoSection extends Component {
 
   openModal(e) {
     const $modal = document.getElementById("modal");
+    const $todoItem = e.target.closest(".todo-item");
 
     this.deleteItem(e);
     dispatchCutomEvent("openModalAndSetTodo", $modal, {
-      todo: "todo",
+      todoId: $todoItem.dataset.id,
+      sectionId: this.$props.section.id,
+      $section: this.$element,
     });
   }
 
