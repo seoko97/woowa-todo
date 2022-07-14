@@ -35,4 +35,11 @@ function createSection(userId, title) {
   ]);
 }
 
-module.exports = { getSection, createSection };
+function updateSection(sectionId, title) {
+  return pool.query(`UPDATE Section SET title = ? WHERE id = ?;`, [
+    title,
+    sectionId,
+  ]);
+}
+
+module.exports = { getSection, createSection, updateSection };
