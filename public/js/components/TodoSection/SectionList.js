@@ -1,3 +1,5 @@
+import { requestCreateTodo } from "../../api/todo";
+import { dispatchCutomEvent } from "../../lib/customEvent";
 import Component from "../component";
 import BaseItem from "../TodoItem/BaseItem";
 import InputItem from "../TodoItem/InputItem";
@@ -23,7 +25,7 @@ export default class SectionList extends Component {
     if (!$button || !$item) return;
 
     const itemState = this.$state.todos.find(
-      (todo) => todo.id === $item.dataset.id
+      (todo) => todo.id === parseInt($item.dataset.id)
     );
 
     if (itemState?.status === "EDIT") this.toggleButtonByEdit(itemState.id, e);
@@ -36,7 +38,21 @@ export default class SectionList extends Component {
       this.mount();
     } else if (e.target.classList.contains("submit")) {
       // 상위 state 변경 로직 있어야함
-      console.log("@@@");
+      const $createForm = e.target.closest(".todo-item");
+      const $section = e.target.closest(".todo-section");
+
+      const $titleInput = $createForm.querySelector("input.title");
+      const $descriptionInput = $createForm.querySelector(
+        "textarea.description"
+      );
+
+      requestCreateTodo({
+        sectionId: $section.dataset.id,
+        title: $titleInput.value,
+        description: $descriptionInput.value,
+      }).then(() => {
+        dispatchCutomEvent(`getSection${$section.dataset.id}`, $section, {});
+      });
     }
   }
 
@@ -65,15 +81,13 @@ export default class SectionList extends Component {
         class: "todo-item create focus hidden",
       },
       { status: "CREATE", id: 0, title: "", description: "" },
-      {
-        addTodoItem: this.$props.addTodoItem,
-        rerender: this.mount.bind(this),
-      }
+      {}
     );
 
     this.$element.append($start);
 
-    this.$todos = todos.map((todo, i) => {
+    this.$todos = todos.map((todo) => {
+      console.log(todo);
       switch (todo.status) {
         case "DEFAULT":
           return new BaseItem(
@@ -93,10 +107,10 @@ export default class SectionList extends Component {
               "data-id": todo.id,
             },
             todo,
-            {
-              rerender: this.mount.bind(this),
-            }
+            {}
           );
+        default:
+          return;
       }
     });
   }
