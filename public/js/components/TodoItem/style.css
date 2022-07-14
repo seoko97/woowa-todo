@@ -88,7 +88,7 @@
   font-weight: 400;
 }
 
-.todo-item_content > .auther {
+.todo-item_content > .author {
   font-size: 12px;
   color: #bdbdbd;
 }
@@ -99,6 +99,18 @@
   padding: 2px;
 }
 
-.todo-item_content > input:focus {
+.todo-item_content > input:focus,
+.todo-item_content > textarea:focus {
   outline: none;
+}
+
+.todo-item_content > textarea {
+  resize: none;
+  overflow-y: visible;
+  border: 0;
+  min-height: 32px;
+}
+
+.todo-item_content > textarea::-webkit-scrollbar {
+  display: none;
 }

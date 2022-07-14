@@ -17,6 +17,7 @@ export default class BaseItem extends Component {
         <div class="todo-item_content">
           <h3 class="title">${title}</h3>
           <p class="description">${description}</p>
+          <p class="author">author by web</>
         </div>
       `;
   }

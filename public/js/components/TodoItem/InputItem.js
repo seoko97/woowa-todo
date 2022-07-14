@@ -12,19 +12,19 @@ export default class InputItem extends Component {
     this.render();
   }
 
-  setStatus(newStatus) {
-    this.$element.classList.toggle("default", newStatus === "DEFAULT");
-    this.$element.classList.toggle("create", newStatus === "CREATE");
-    this.$element.classList.toggle("edit", newStatus === "EDIT");
-    this.setState({ ...this.$state, status: newStatus });
-  }
-
   setEvent() {
-    this.$element.removeEventListener("input", this.onChnageInput.bind(this));
-    this.addEvent("input", ".todo-item", this.onChnageInput.bind(this));
+    this.$element.removeEventListener("input", this.onChangeInput.bind(this));
+    this.addEvent("input", ".todo-item", this.onChangeInput.bind(this));
   }
 
-  onChnageInput() {
+  onChangeInput(e) {
+    e.target.value = e.target.value.substring(0, 500);
+
+    if (e.target === this.$description) {
+      this.$description.style.height = "auto";
+      this.$description.style.height = `${this.$description.scrollHeight}px`;
+    }
+
     const check = this.$title.value !== "" && this.$description.value !== "";
 
     const isDisabledBtn = this.$createBtn.disabled;
@@ -40,27 +40,28 @@ export default class InputItem extends Component {
 
   mount() {
     const { status, title, description } = this.$state;
+    console.log(description);
 
     this.$element.innerHTML = `
         <div class="todo-item_content">
-          <input value="${
-            title ?? ""
-          }" class="title"  name="title" placeholder="제목을 입력하세요"/>
-          <input value="${
-            description ?? ""
-          }" class="description"  name="description"placeholder="내용을 입력하세요" />
-          <input />
+          <input value="${title}" class="title"  name="title" placeholder="제목을 입력하세요"/>
+          <textarea  class="description" maxlength="500"  name="description"placeholder="내용을 입력하세요" >${description}</textarea>
         </div>
         <div class="todo-item_btn-container">
           <button class="button cancle">취소</button>
-          <button class="button primary submit">${
-            status === "CREATE" ? "생성" : "수정"
-          }</button>
+          <button class="button primary submit"></button>
         </div>
       `;
 
     this.$title = this.$element.querySelector("input.title");
-    this.$description = this.$element.querySelector("input.description");
+    this.$description = this.$element.querySelector("textarea.description");
     this.$createBtn = this.$element.querySelector(".submit");
+
+    if (status === "CREATE") {
+      this.$createBtn.innerText = "생성";
+      this.$createBtn.disabled = true;
+    } else {
+      this.$createBtn.innerText = "수정";
+    }
   }
 }
