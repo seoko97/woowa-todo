@@ -1,8 +1,9 @@
 const todoService = require("../services/todoService");
 
 function createTodo(req, res) {
+  const userId = 1;
   const { sectionId, title, description } = req.body;
-  todoService.createTodo(sectionId, title, description).then(() => {
+  todoService.createTodo(userId, sectionId, title, description).then(() => {
     res.status(201).json({
       statusCode: 201,
     });

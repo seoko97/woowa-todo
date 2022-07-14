@@ -1,6 +1,6 @@
 const pool = require("../db");
 
-function createTodo(sectionId, title, description) {
+function createTodo(userId, sectionId, title, description) {
   return pool
     .query(
       `UPDATE Todo SET priority = priority + 1 WHERE sectionId = ?;`,
@@ -10,7 +10,7 @@ function createTodo(sectionId, title, description) {
       pool.query(
         `INSERT INTO Todo ( title, description, userId, sectionId, priority)
         VALUES (?, ?, ?, ?, ?);`,
-        [title, description, 1, sectionId, 0]
+        [title, description, userId, sectionId, 0]
       );
     });
 }
