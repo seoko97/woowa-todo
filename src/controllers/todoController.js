@@ -2,28 +2,29 @@ const todoService = require("../services/todoService");
 
 function createTodo(req, res) {
   const { sectionId, title, description } = req.body;
-  todoService
-    .createTodo(sectionId, title, description)
-    .then(() => {
-      res.send("CREATED");
-    })
-    .catch(() => {
-      res.send("FAILED");
+  todoService.createTodo(sectionId, title, description).then(() => {
+    res.status(201).json({
+      statusCode: 201,
     });
+  });
 }
 
 function updateTodo(req, res) {
   const todoId = req.params.id;
   const { title, description } = req.body;
   todoService.updateTodo(todoId, title, description).then(() => {
-    res.send(`${todoId} UPDATED`);
+    res.status(200).json({
+      statusCode: 200,
+    });
   });
 }
 
 function deleteTodo(req, res) {
   const todoId = req.params.id;
   todoService.deleteTodo(todoId).then(() => {
-    res.send(`${todoId} DELETED`);
+    res.status(200).json({
+      statusCode: 200,
+    });
   });
 }
 
@@ -33,7 +34,9 @@ function moveTodo(req, res) {
   todoService
     .moveTodo(todoId, fromSectionId, toSectionId, prevTodoId)
     .then(() => {
-      res.send(`${todoId} MOVED`);
+      res.status(200).json({
+        statusCode: 200,
+      });
     });
 }
 
