@@ -52,14 +52,11 @@ export default class TodoSection extends Component {
   showCreateForm(e) {
     const $createForm = this.$list.$element.querySelector(".todo-item.create");
     const $plus = e.target.closest(".plus");
+    const isHidden = $createForm.classList.contains("hidden");
+    const isActivePlusBtn = $plus.classList.contains("active");
 
-    if ($createForm.style.display === "flex") {
-      $createForm.style.display = "none";
-      $plus.classList.remove("active");
-    } else {
-      $createForm.style.display = "flex";
-      $plus.classList.add("active");
-    }
+    $createForm.classList.toggle("hidden", !isHidden);
+    $plus.classList.toggle("active", !isActivePlusBtn);
   }
 
   deleteItem(e) {

@@ -19,8 +19,11 @@
 }
 
 .todo-item.create {
-  display: none;
   cursor: default;
+}
+
+.todo-item.create.hidden {
+  display: none;
 }
 
 .todo-item.start {

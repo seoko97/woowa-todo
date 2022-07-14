@@ -62,7 +62,7 @@ export default class SectionList extends Component {
     new InputItem(
       this.$element,
       {
-        class: "todo-item create focus",
+        class: "todo-item create focus hidden",
       },
       { status: "CREATE" },
       {
