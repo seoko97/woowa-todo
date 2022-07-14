@@ -1,6 +1,7 @@
+import MainContent from "./components/MainContent";
+import Modal from "./components/Modal";
 import "../css/normalize.css";
 import "../css/styles.css";
-import MainContent from "./components/MainContent";
 
 export class App {
   constructor($target) {
@@ -10,6 +11,7 @@ export class App {
 
   init() {
     new MainContent(this.$target, {}, {});
+    new Modal(document.body);
   }
 }
 
