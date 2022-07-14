@@ -88,6 +88,11 @@
   font-weight: 400;
 }
 
+.todo-item_content > .auther {
+  font-size: 12px;
+  color: #bdbdbd;
+}
+
 .todo-item_content > input {
   border: 0;
   background-color: none;
