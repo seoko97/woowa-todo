@@ -12,7 +12,7 @@ export default class SectionHeader extends Component {
   mount() {
     const { title, todos } = this.$state;
     this.$element.innerHTML = `
-          <div class="todo-section-header__right">
+          <div class="todo-section-header__left">
             <h3>${title}</h3>
             <span>${
               todos.filter((todo) => todo.status !== "CREATE").length
