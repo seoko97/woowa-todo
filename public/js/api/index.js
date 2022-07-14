@@ -1,5 +1,11 @@
 export const request = (url, method, body) => {
-  const config = { method };
+  const config = {
+    method,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  };
 
   if (body) config.body = JSON.stringify(body);
 
