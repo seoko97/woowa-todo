@@ -84,7 +84,7 @@ function getPrioirty(todoId) {
 function moveTodo(moveTodoDto) {
   const { fromSection, toSection, currentTodo, prevTodo } = moveTodoDto;
 
-  return getPrioirty(prevTodo?.id || null)
+  return getPrioirty(prevTodo)
     .then((prevPriority) => {
       pool.query(
         `UPDATE Todo SET priority = priority + 1 WHERE sectionId = ? AND priority >= ?;`,
