@@ -5,7 +5,7 @@ const todoRouter = express.Router();
 
 todoRouter.post("/", todoController.createTodo);
 
-todoRouter.post("/move/:id", todoController.moveTodo);
+todoRouter.post("/move", todoController.moveTodo);
 
 todoRouter.put("/:id", todoController.updateTodo);
 

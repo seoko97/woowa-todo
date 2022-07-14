@@ -30,10 +30,9 @@ function deleteTodo(req, res) {
 }
 
 function moveTodo(req, res) {
-  const todoId = req.params.id;
-  const { fromSectionId, toSectionId, prevTodoId } = req.body;
+  const { currentodoId, fromSectionId, toSectionId, prevTodoId } = req.body;
   todoService
-    .moveTodo(todoId, fromSectionId, toSectionId, prevTodoId)
+    .moveTodo(currentodoId, fromSectionId, toSectionId, prevTodoId)
     .then(() => {
       res.status(200).json({
         statusCode: 200,
