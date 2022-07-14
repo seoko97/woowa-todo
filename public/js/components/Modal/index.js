@@ -32,6 +32,8 @@ export default class Modal extends Component {
   openModalAndSetTodo(e) {
     this.toggleModal();
     this.todoId = e.detail.todoId;
+    this.sectionId = e.detail.sectionId;
+    this.$section = e.detail.$section;
   }
 
   toggleModal() {
@@ -49,7 +51,7 @@ export default class Modal extends Component {
       this.toggleModal();
 
       requestDeleteTodo(this.todoId).then(() => {
-        dispatchCutomEvent(`getSection${this.$props.section.id}`);
+        dispatchCutomEvent(`getSection${this.sectionId}`, this.$section);
       });
     }
   }
