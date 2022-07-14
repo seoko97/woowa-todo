@@ -42,4 +42,8 @@ function updateSection(sectionId, title) {
   ]);
 }
 
-module.exports = { getSection, createSection, updateSection };
+function deleteSection(sectionId) {
+  return pool.query(`DELETE FROM Section WHERE id = ?`, sectionId);
+}
+
+module.exports = { getSection, createSection, updateSection, deleteSection };
