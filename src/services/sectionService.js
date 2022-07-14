@@ -28,4 +28,11 @@ function getSection(sectionId) {
     });
 }
 
-module.exports = { getSection };
+function createSection(userId, title) {
+  return pool.query(`INSERT INTO Section ( title, userId ) VALUES ( ?, ? );`, [
+    title,
+    userId,
+  ]);
+}
+
+module.exports = { getSection, createSection };
