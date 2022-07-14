@@ -14,7 +14,10 @@ function createTodo(req, res) {
 
 function updateTodo(req, res) {
   const todoId = req.params.id;
-  res.send(`${todoId} UPDATED`);
+  const { title, description } = req.body;
+  todoService.update(todoId, title, description).then(() => {
+    res.send(`${todoId} UPDATED`);
+  });
 }
 
 function deleteTodo(req, res) {

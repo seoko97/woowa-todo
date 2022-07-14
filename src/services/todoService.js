@@ -15,4 +15,11 @@ function create(sectionId, title, description) {
     });
 }
 
-module.exports = { create };
+function update(todoId, title, description) {
+  return pool.query(`Update Todo SET title = ?, description = ? WHERE id = ?`, [
+    title,
+    description,
+    todoId,
+  ]);
+}
+module.exports = { create, update };
