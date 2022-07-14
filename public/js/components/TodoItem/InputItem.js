@@ -40,18 +40,17 @@ export default class InputItem extends Component {
 
   mount() {
     const { status, title, description } = this.$state;
-    console.log(description);
 
     this.$element.innerHTML = `
-        <div class="todo-item_content">
-          <input value="${title}" class="title"  name="title" placeholder="제목을 입력하세요"/>
-          <textarea  class="description" maxlength="500"  name="description"placeholder="내용을 입력하세요" >${description}</textarea>
-        </div>
-        <div class="todo-item_btn-container">
-          <button class="button cancle">취소</button>
-          <button class="button primary submit"></button>
-        </div>
-      `;
+      <div class="todo-item_content">
+        <input value="${title}" class="title" name="title" placeholder="제목을 입력하세요"/>
+        <textarea class="description" maxlength="500" name="description" placeholder="내용을 입력하세요">${description}</textarea>
+      </div>
+      <div class="todo-item_btn-container">
+        <button class="button cancle">취소</button>
+        <button class="button primary submit"></button>
+      </div>
+    `;
 
     this.$title = this.$element.querySelector("input.title");
     this.$description = this.$element.querySelector("textarea.description");

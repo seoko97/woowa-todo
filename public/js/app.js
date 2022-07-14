@@ -12,7 +12,7 @@ export class App {
 
   init() {
     new Header(this.$target);
-    new MainContent(this.$target, {}, {});
+    new MainContent(this.$target);
     new Modal(document.body);
   }
 }
