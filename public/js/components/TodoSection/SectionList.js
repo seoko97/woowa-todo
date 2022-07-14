@@ -1,4 +1,4 @@
-import { requestCreateTodo } from "../../api/todo";
+import { requestCreateTodo, requestUpdateTodo } from "../../api/todo";
 import { dispatchCutomEvent } from "../../lib/customEvent";
 import Component from "../component";
 import BaseItem from "../TodoItem/BaseItem";
@@ -11,6 +11,7 @@ export default class SectionList extends Component {
     super($parent, "ul", { class: "todo-section-ul" }, $state, $props);
 
     this.render();
+    console.log($state);
   }
 
   setEvent() {
@@ -32,26 +33,32 @@ export default class SectionList extends Component {
     else this.toggleButtonByCreate(e);
   }
 
+  getCurrentValue($current) {
+    const $todoItem = $current.closest(".todo-item");
+    const $titleInput = $todoItem.querySelector("input.title");
+    const $descriptionInput = $todoItem.querySelector("textarea.description");
+
+    return {
+      todoId: $todoItem.dataset.id,
+      title: $titleInput.value,
+      description: $descriptionInput.value,
+    };
+  }
+
   toggleButtonByCreate(e) {
     if (e.target.classList.contains("cancle")) {
       document.querySelector(".active").classList.remove("active");
       this.mount();
     } else if (e.target.classList.contains("submit")) {
-      // 상위 state 변경 로직 있어야함
-      const $createForm = e.target.closest(".todo-item");
-      const $section = e.target.closest(".todo-section");
-
-      const $titleInput = $createForm.querySelector("input.title");
-      const $descriptionInput = $createForm.querySelector(
-        "textarea.description"
-      );
+      const $section = this.$parent;
+      const { title, description } = this.getCurrentValue(e.target);
 
       requestCreateTodo({
         sectionId: $section.dataset.id,
-        title: $titleInput.value,
-        description: $descriptionInput.value,
+        title,
+        description,
       }).then(() => {
-        dispatchCutomEvent(`getSection${$section.dataset.id}`, $section, {});
+        dispatchCutomEvent(`getSection${$section.dataset.id}`, $section);
       });
     }
   }
@@ -64,8 +71,12 @@ export default class SectionList extends Component {
       todoState.status = "DEFAULT";
       this.setState(newState);
     } else if (e.target.classList.contains("submit")) {
-      // 상위 state 변경 로직 있어야함
-      console.log("@@@");
+      const $section = this.$parent;
+      const { description, title, todoId } = this.getCurrentValue(e.target);
+
+      requestUpdateTodo(todoId, { title, description }).then(() => {
+        dispatchCutomEvent(`getSection${$section.dataset.id}`, $section);
+      });
     }
   }
 
@@ -87,7 +98,6 @@ export default class SectionList extends Component {
     this.$element.append($start);
 
     this.$todos = todos.map((todo) => {
-      console.log(todo);
       switch (todo.status) {
         case "DEFAULT":
           return new BaseItem(
