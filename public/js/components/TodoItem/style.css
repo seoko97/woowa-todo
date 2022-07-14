@@ -81,11 +81,14 @@
 .todo-item_content > .title {
   font-size: 16px;
   font-weight: 700;
+  margin-right: 26px;
+  word-break: break-all;
 }
 
 .todo-item_content > .description {
   font-size: 14px;
   font-weight: 400;
+  word-break: break-all;
 }
 
 .todo-item_content > .author {

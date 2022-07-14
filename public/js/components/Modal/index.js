@@ -1,10 +1,14 @@
-import { createCustomEvent } from "../../lib/customEvent";
+import { requestDeleteTodo } from "../../api/todo";
+import { createCustomEvent, dispatchCutomEvent } from "../../lib/customEvent";
 import Component from "../component";
 import "./style.css";
 
 export default class Modal extends Component {
-  $todo;
-  constructor($parent, $state, $props) {
+  todoId;
+  sectionId;
+  $section;
+
+  constructor($parent) {
     super($parent, "div", { id: "modal" });
 
     this.render();
@@ -27,7 +31,7 @@ export default class Modal extends Component {
 
   openModalAndSetTodo(e) {
     this.toggleModal();
-    this.$todo = e.detail.todo;
+    this.todoId = e.detail.todoId;
   }
 
   toggleModal() {
@@ -41,9 +45,12 @@ export default class Modal extends Component {
 
     if ($button.classList.contains("close")) this.toggleModal();
     else if ($button.classList.contains("delete")) {
-      console.log(this.$todo);
       // api
       this.toggleModal();
+
+      requestDeleteTodo(this.todoId).then(() => {
+        dispatchCutomEvent(`getSection${this.$props.section.id}`);
+      });
     }
   }
 
