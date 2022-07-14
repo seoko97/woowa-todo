@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(webpackConfig);
 
-app.use(apiRouter);
+app.use("/api", apiRouter);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
