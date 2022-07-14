@@ -10,6 +10,16 @@ function createSection(req, res) {
   });
 }
 
+function getSections(req, res) {
+  const userId = 1;
+  sectionService.getSections(userId).then((data) => {
+    res.status(200).json({
+      statusCode: 200,
+      data,
+    });
+  });
+}
+
 function getSection(req, res) {
   const sectionId = req.params.id;
   sectionService.getSection(sectionId).then((data) => {
@@ -39,4 +49,10 @@ function deleteSection(req, res) {
   });
 }
 
-module.exports = { createSection, getSection, updateSection, deleteSection };
+module.exports = {
+  createSection,
+  getSections,
+  getSection,
+  updateSection,
+  deleteSection,
+};

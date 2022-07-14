@@ -1,5 +1,28 @@
 const pool = require("../db");
 
+function createSection(userId, title) {
+  return pool.query(`INSERT INTO Section ( title, userId ) VALUES ( ?, ? );`, [
+    title,
+    userId,
+  ]);
+}
+
+function getSections(userId) {
+  return pool
+    .query(
+      `
+        SELECT DISTINCT id, title, createdAt, updatedAt
+        FROM Section
+        WHERE userId = ?
+        ORDER BY id ASC;
+      `,
+      [userId]
+    )
+    .then(([rows]) => {
+      return rows;
+    });
+}
+
 function getSection(sectionId) {
   return pool
     .query(
@@ -28,13 +51,6 @@ function getSection(sectionId) {
     });
 }
 
-function createSection(userId, title) {
-  return pool.query(`INSERT INTO Section ( title, userId ) VALUES ( ?, ? );`, [
-    title,
-    userId,
-  ]);
-}
-
 function updateSection(sectionId, title) {
   return pool.query(`UPDATE Section SET title = ? WHERE id = ?;`, [
     title,
@@ -46,4 +62,10 @@ function deleteSection(sectionId) {
   return pool.query(`DELETE FROM Section WHERE id = ?`, sectionId);
 }
 
-module.exports = { getSection, createSection, updateSection, deleteSection };
+module.exports = {
+  createSection,
+  getSections,
+  getSection,
+  updateSection,
+  deleteSection,
+};
