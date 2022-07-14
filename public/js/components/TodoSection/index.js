@@ -4,7 +4,8 @@ import SectionList from "./SectionList";
 import { isBeforeCurrentElement } from "../../lib/isBeforeCurrentElement";
 
 import "./style.css";
-import { dispatchCutomEvent } from "../../lib/customEvent";
+import { createCustomEvent, dispatchCutomEvent } from "../../lib/customEvent";
+import { requestGetSection } from "../../api/section";
 
 export default class TodoSection extends Component {
   $header;
@@ -20,8 +21,21 @@ export default class TodoSection extends Component {
   constructor($parent, $state, $props) {
     super($parent, "section", { class: "todo-section" }, $state, $props);
 
-    this.$element.setAttribute("data-title", this.$state.title);
-    this.render();
+    this.getSection();
+    this.setEvent();
+  }
+
+  getSection() {
+    requestGetSection(this.$props.section.id).then(({ data }) => {
+      data.todos = data.todos.map((todo) => ({
+        ...todo,
+        status: "DEFAULT",
+      }));
+
+      this.setState(data);
+      this.$element.setAttribute("data-id", this.$state.id);
+      this.$element.setAttribute("data-title", this.$state.title);
+    });
   }
 
   setEvent() {
@@ -32,6 +46,11 @@ export default class TodoSection extends Component {
         else this.onMouseDownItem(e);
       } else this.showEditForm(e);
     });
+    createCustomEvent(
+      `getSection${this.$props.section.id}`,
+      this.$element,
+      this.getSection.bind(this)
+    );
   }
 
   openModal(e) {
@@ -47,8 +66,9 @@ export default class TodoSection extends Component {
     const $clickedItem = e.target.closest(".todo-item");
     const newState = { ...this.$list.$state };
     const seletedTodo = newState.todos.find(
-      (todo) => todo.id === $clickedItem.dataset.id
+      (todo) => todo.id === parseInt($clickedItem.dataset.id)
     );
+
     seletedTodo.status = "EDIT";
 
     this.$list.setState(newState);
