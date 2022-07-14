@@ -30,14 +30,12 @@ function deleteTodo(req, res) {
 }
 
 function moveTodo(req, res) {
-  const { currentodoId, fromSectionId, toSectionId, prevTodoId } = req.body;
-  todoService
-    .moveTodo(currentodoId, fromSectionId, toSectionId, prevTodoId)
-    .then(() => {
-      res.status(200).json({
-        statusCode: 200,
-      });
+  const moveTodoDto = req.body;
+  todoService.moveTodo(moveTodoDto).then(() => {
+    res.status(200).json({
+      statusCode: 200,
     });
+  });
 }
 
 module.exports = {
