@@ -1,5 +1,15 @@
+const todoService = require("../services/todoService");
+
 function createTodo(req, res) {
-  res.send("CREATED");
+  const { sectionId, title, description } = req.body;
+  todoService
+    .create(sectionId, title, description)
+    .then(() => {
+      res.send("CREATED");
+    })
+    .catch(() => {
+      res.send("FAILED");
+    });
 }
 
 function updateTodo(req, res) {
