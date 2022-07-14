@@ -64,7 +64,7 @@ export default class SectionList extends Component {
       {
         class: "todo-item create focus hidden",
       },
-      { status: "CREATE" },
+      { status: "CREATE", id: 0, title: "", description: "" },
       {
         addTodoItem: this.$props.addTodoItem,
         rerender: this.mount.bind(this),

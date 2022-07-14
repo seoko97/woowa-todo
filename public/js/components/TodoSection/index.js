@@ -30,10 +30,7 @@ export default class TodoSection extends Component {
       if (e.detail < 2) {
         if (e.target.closest(".close")) this.openModal(e);
         else this.onMouseDownItem(e);
-      } else {
-        // 더블클릭
-        this.showEditForm(e);
-      }
+      } else this.showEditForm(e);
     });
   }
 
