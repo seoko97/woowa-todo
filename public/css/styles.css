@@ -107,7 +107,7 @@ button {
   transition: fill 0.2s;
   cursor: pointer;
 }
-.icon > svg.active {
+.icon.active > svg {
   fill: #0075de;
 }
 

@@ -8,6 +8,7 @@ export default class Component {
     this.$element = document.createElement($tagName);
     this.$props = $props;
     this.$state = $state;
+    this.$parent = $parent;
 
     for (const attr in $attrs) {
       this.$element.setAttribute(attr, $attrs[attr]);
@@ -19,7 +20,7 @@ export default class Component {
     this.$state = {
       ...newState,
     };
-    this.render();
+    this.mount();
   }
 
   mount() {}
