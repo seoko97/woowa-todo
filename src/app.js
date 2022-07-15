@@ -7,6 +7,8 @@ const apiRouter = require("./routes/apiRouter");
 
 const app = express();
 
+app.disable("etag");
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

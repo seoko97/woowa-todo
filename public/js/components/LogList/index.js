@@ -1,6 +1,7 @@
 import "./style.css";
 import Component from "../component";
 import LogItem from "../LogItem";
+import { requestGetLogs } from "../../api/log";
 
 export default class LogList extends Component {
   constructor($parent) {
@@ -18,44 +19,10 @@ export default class LogList extends Component {
 
   getLogListByOpened() {
     this.$element.innerHTML = "";
-    this.fetchLogList(0).then((logs) => {
+    requestGetLogs().then(({ data }) => {
       this.setState({
-        logs,
+        logs: data,
       });
     });
-  }
-
-  async fetchLogList() {
-    return [
-      {
-        actionType: "ADD",
-        username: "sam",
-        section: "해야할 일",
-        todoTitle: "블로그에 포스팅할 것",
-        createdAt: new Date(),
-      },
-      {
-        actionType: "UPDATE",
-        username: "sam",
-        section: "해야할 일",
-        todoTitle: "Github 공부하기",
-        createdAt: new Date(),
-      },
-      {
-        actionType: "MOVE",
-        username: "sam",
-        from: "해야할 일",
-        to: "하고있는 일",
-        todoTitle: "HTML/CSS 공부하기",
-        createdAt: new Date(),
-      },
-      {
-        actionType: "DELETE",
-        username: "sam",
-        section: "해야할 일",
-        todoTitle: "HTML/CSS 공부하기",
-        createdAt: new Date(),
-      },
-    ];
   }
 }

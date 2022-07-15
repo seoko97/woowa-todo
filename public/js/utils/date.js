@@ -9,40 +9,51 @@ const DATE_DIFF = [
   {
     diff: ONE_MINUTE,
     label: "초 전",
+    prevDiff: 1,
   },
   {
     diff: ONE_HOUR,
     label: "분 전",
+    prevDiff: ONE_MINUTE,
   },
   {
     diff: ONE_DAY,
     label: "시간 전",
+    prevDiff: ONE_HOUR,
   },
   {
     diff: ONE_WEEK,
     label: "일 전",
+    prevDiff: ONE_DAY,
   },
   {
     diff: ONE_MONTH,
     label: "주 전",
+    prevDiff: ONE_WEEK,
   },
   {
     diff: ONE_YEAR,
     label: "달 전",
+    prevDiff: ONE_MONTH,
   },
 ];
 
 function getSecondDiff(startDate, endDate) {
-  return Math.floor((endDate.getTime() - startDate.getTime()) / 1000);
+  return Math.max(
+    Math.floor((endDate.getTime() - startDate.getTime()) / 1000) - 9 * ONE_HOUR,
+    0
+  );
 }
 
-export function getDateDiff(startDate, endDate) {
-  const secondDiff = getSecondDiff(startDate, endDate);
-  const currentDiff = DATE_DIFF.find(({ diff }) => secondDiff < diff);
+export function getDateDiff(startDate) {
+  const endDate = new Date();
+  const secondDiff = getSecondDiff(new Date(startDate), endDate);
 
-  if (!currentDiff) {
-    return `${Math.floor(secondDiff / ONE_YEAR)}${label}`;
+  for (const { diff, label, prevDiff } of DATE_DIFF) {
+    if (secondDiff < diff) {
+      return `${Math.floor(secondDiff / prevDiff)}${label}`;
+    }
   }
 
-  return `${secondDiff % currentDiff.diff}${currentDiff.label}`;
+  return `${Math.floor(secondDiff / ONE_YEAR)}${label}`;
 }
