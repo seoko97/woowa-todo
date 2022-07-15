@@ -11,7 +11,6 @@ export default class SectionList extends Component {
     super($parent, "ul", { class: "todo-section-ul" }, $state, $props);
 
     this.render();
-    console.log($state);
   }
 
   setEvent() {
