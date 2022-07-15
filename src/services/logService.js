@@ -1,6 +1,6 @@
 const pool = require("../db");
 
-function createLog(logData) {
+function createLog(connection, logData) {
   const {
     eventType,
     fromSectionTitle,
@@ -8,7 +8,7 @@ function createLog(logData) {
     toSectionTitle,
     toTodoTitle,
   } = logData;
-  return pool.query(
+  return connection.query(
     `INSERT INTO Log (
       eventType,
       fromSectionTitle,
@@ -22,18 +22,21 @@ function createLog(logData) {
   );
 }
 
-function getLogs(limit = 20, page = 1) {
-  return pool
-    .query(
-      `
-      SELECT *
-      FROM Log
-      ORDER BY createdAt DESC
-      LIMIT ?, ?;
-    `,
-      [(+page - 1) * +limit, +limit]
-    )
-    .then(([rows]) => rows);
+function getLogs(limit = 20, page = 1, callback) {
+  return pool.getConnection().then((connection) =>
+    connection
+      .query(
+        `SELECT *
+          FROM Log
+          ORDER BY createdAt DESC
+          LIMIT ?, ?;`,
+        [(+page - 1) * +limit, +limit]
+      )
+      .then(([rows]) => {
+        connection.release();
+        callback(rows);
+      })
+  );
 }
 
 module.exports = { createLog, getLogs };
