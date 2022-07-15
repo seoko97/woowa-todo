@@ -21,7 +21,7 @@ export default class LogList extends Component {
     this.$element.innerHTML = "";
     requestGetLogs().then(({ data }) => {
       this.setState({
-        logs: data.slice(0, 2),
+        logs: data,
       });
     });
   }
