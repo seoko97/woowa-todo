@@ -98,8 +98,22 @@ export default class TodoSection extends Component {
     $item.classList.add("delete");
   }
 
+  endDragAndDrop() {
+    this.clicked = false;
+    if (this.$currentNode) {
+      this.$currentNode.classList.remove("place");
+      this.$currentNode.classList.remove("focus");
+    }
+    if (this.$cloneNode) this.$cloneNode.remove();
+    this.$cloneNode = null;
+    this.$currentNode = null;
+  }
+
   onMouseupItem(e) {
-    if (!this.clicked) return;
+    if (!this.clicked || !e) return this.endDragAndDrop();
+    const $section = e.target.closest(".todo-section");
+
+    if (!$section) return this.endDragAndDrop();
 
     this.clicked = false;
 
@@ -108,10 +122,13 @@ export default class TodoSection extends Component {
       this.$currentNode.classList.remove("focus");
     }
     if (this.$cloneNode) this.$cloneNode.remove();
+    this.$cloneNode = null;
 
     const { pageX, pageY } = e;
 
     const elemBelow = document.elementFromPoint(pageX, pageY);
+    if (!elemBelow) return this.endDragAndDrop();
+
     const todos = this.$state.todos;
 
     const fromSection = this.$element;
@@ -121,6 +138,8 @@ export default class TodoSection extends Component {
       (todo) => todo.id === parseInt(this.$currentNode.dataset.id)
     );
 
+    if (!toSection || !fromSection) return this.endDragAndDrop();
+
     const data = {
       fromSection: fromSection.dataset,
       toSection: toSection.dataset,
@@ -128,26 +147,32 @@ export default class TodoSection extends Component {
         id: currentTodo.id,
         title: currentTodo.title,
       },
-      prevTodo: prevTodo.dataset.id,
+      prevTodo: prevTodo?.dataset?.id,
     };
 
     this.$currentNode = null;
-    this.$cloneNode = null;
 
-    document.body.removeEventListener("mousemove", this.$mousemove);
+    this.clearEvent();
 
     requestMoveTodo(data).then(() => {
       dispatchCutomEvent(`getSection${fromSection.dataset.id}`, fromSection);
       dispatchCutomEvent(`getSection${toSection.dataset.id}`, toSection);
     });
   }
+  clearEvent() {
+    document.body.removeEventListener("mousemove", this.$mousemove);
+    document.body.removeEventListener("mouseleave", this.$mouseleave);
+  }
 
   onMouseDownItem(e) {
+    this.clearEvent();
+
     if (e.button !== 0) return;
 
     const $item = e.target.closest("li.todo-item");
 
     if (!$item) return;
+
     this.$currenId = $item.dataset.id;
 
     this.clicked = true;
@@ -167,24 +192,37 @@ export default class TodoSection extends Component {
     this.$hover.style.top = pageY - this.$cloneNode.offsetHeight / 2 + "px";
 
     this.$mousemove = this.onMouseMoveItem.bind(this);
+    this.$mouseleave = this.mouseleave.bind(this);
 
     document.body.addEventListener("mousemove", this.$mousemove);
+    document.body.addEventListener("mouseleave", this.$mouseleave);
     document.body.addEventListener("mouseup", this.onMouseupItem.bind(this), {
       once: true,
     });
   }
+  mouseleave() {
+    this.clearEvent();
+
+    if (!this.clicked) return this.endDragAndDrop();
+
+    this.onMouseupItem();
+  }
 
   onMouseMoveItem(e) {
-    if (!this.clicked || !this.$cloneNode) return;
+    if (!this.clicked || !this.$cloneNode || !e || !e.target) return;
 
     const { pageX, pageY } = e;
 
     this.$hover.hidden = true;
+
     const elemBelow = document.elementFromPoint(pageX, pageY);
+
+    if (!elemBelow) return this.endDragAndDrop();
+
     const li = elemBelow.closest("li");
     const ul = elemBelow.closest("ul");
-    this.$hover.hidden = false;
 
+    this.$hover.hidden = false;
     this.$hover.style.left = pageX - this.$cloneNode.offsetWidth / 2 + "px";
     this.$hover.style.top = pageY - this.$cloneNode.offsetHeight / 2 + "px";
 
