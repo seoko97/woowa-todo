@@ -3,7 +3,7 @@ const sectionService = require("../services/sectionService");
 function createSection(req, res) {
   const userId = 1;
   const { title } = req.body;
-  sectionService.createSection(userId, title).then(() => {
+  sectionService.createSection(userId, title, () => {
     res.status(201).json({
       statusCode: 200,
     });
@@ -12,7 +12,7 @@ function createSection(req, res) {
 
 function getSections(req, res) {
   const userId = 1;
-  sectionService.getSections(userId).then((data) => {
+  sectionService.getSections(userId, (data) => {
     res.status(200).json({
       statusCode: 200,
       data,
@@ -22,7 +22,7 @@ function getSections(req, res) {
 
 function getSection(req, res) {
   const sectionId = req.params.id;
-  sectionService.getSection(sectionId).then((data) => {
+  sectionService.getSection(sectionId, (data) => {
     res.status(200).json({
       statusCode: 200,
       data,
@@ -33,7 +33,7 @@ function getSection(req, res) {
 function updateSection(req, res) {
   const sectionId = req.params.id;
   const { title } = req.body;
-  sectionService.updateSection(sectionId, title).then(() => {
+  sectionService.updateSection(sectionId, title, () => {
     res.status(200).json({
       statusCode: 200,
     });
@@ -42,7 +42,7 @@ function updateSection(req, res) {
 
 function deleteSection(req, res) {
   const sectionId = req.params.id;
-  sectionService.deleteSection(sectionId).then(() => {
+  sectionService.deleteSection(sectionId, () => {
     res.status(200).json({
       statusCode: 200,
     });
