@@ -6,3 +6,6 @@ Team 7 이상림, 지석호
 
 ![스크린샷](https://user-images.githubusercontent.com/56021431/179185251-cbae9e49-4523-4fd9-9846-ddd436dfc16f.png)
 
+<br>
+
+[배포](https://github.com/woowa-techcamp-2022/web-todo-7/wiki/%EB%B0%B0%ED%8F%AC)
