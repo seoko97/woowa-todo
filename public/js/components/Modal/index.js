@@ -7,6 +7,7 @@ export default class Modal extends Component {
   todoId;
   sectionId;
   $section;
+  toggleTodoItem;
 
   constructor($parent) {
     super($parent, "div", { id: "modal" });
@@ -30,10 +31,15 @@ export default class Modal extends Component {
   }
 
   openModalAndSetTodo(e) {
+    const { todoId, sectionId, $section, toggleTodoItem, $todoItem } = e.detail;
+
+    this.todoId = todoId;
+    this.sectionId = sectionId;
+    this.$section = $section;
+    this.$todoItem = $todoItem;
+    this.toggleTodoItem = toggleTodoItem;
+
     this.toggleModal();
-    this.todoId = e.detail.todoId;
-    this.sectionId = e.detail.sectionId;
-    this.$section = e.detail.$section;
   }
 
   toggleModal() {
@@ -45,8 +51,10 @@ export default class Modal extends Component {
 
     if (!$button) return;
 
-    if ($button.classList.contains("close")) this.toggleModal();
-    else if ($button.classList.contains("delete")) {
+    if ($button.classList.contains("close")) {
+      this.toggleTodoItem(this.$todoItem);
+      this.toggleModal();
+    } else if ($button.classList.contains("delete")) {
       // api
       this.toggleModal();
 

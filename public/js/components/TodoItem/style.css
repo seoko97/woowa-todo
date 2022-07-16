@@ -56,7 +56,7 @@
   opacity: 0.4;
 }
 
-.todo-item.delete {
+.todo-item.delete > .todo-item-inner {
   border: 1px solid #ff4343;
   background-color: #ffeeec;
 }

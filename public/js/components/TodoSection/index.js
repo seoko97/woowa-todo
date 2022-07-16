@@ -104,7 +104,7 @@ export default class TodoSection extends Component {
 
     if (!$close) return;
 
-    const $item = e.target.closest(".todo-item-inner");
+    const $item = e.target.closest(".todo-item");
 
     $item.classList.add("delete");
   }
