@@ -17,6 +17,8 @@ export default class TodoSection extends Component {
   $hover;
   $mousemove;
   $prev;
+  $moveStatus;
+  timer;
   clicked;
 
   constructor($parent, $state, $props) {
@@ -57,7 +59,7 @@ export default class TodoSection extends Component {
 
   openModal(e) {
     const $modal = document.getElementById("modal");
-    const $todoItem = e.target.closest(".todo-item-inner");
+    const $todoItem = e.target.closest(".todo-item");
 
     this.deleteItem(e);
     dispatchCutomEvent("openModalAndSetTodo", $modal, {
@@ -73,7 +75,10 @@ export default class TodoSection extends Component {
   }
 
   showEditForm(e) {
-    const $clickedItem = e.target.closest(".todo-item-inner");
+    clearTimeout(this.timer);
+    this.timer = null;
+
+    const $clickedItem = e.target.closest(".todo-item");
     const newState = { ...this.$list.$state };
     const seletedTodo = newState.todos.find(
       (todo) => todo.id === parseInt($clickedItem.dataset.id)
@@ -85,9 +90,7 @@ export default class TodoSection extends Component {
   }
 
   showCreateForm(e) {
-    const $createForm = this.$list.$element.querySelector(
-      ".todo-item-inner.create"
-    );
+    const $createForm = this.$list.$element.querySelector(".todo-item.create");
     const $plus = e.target.closest(".plus");
     const isHidden = $createForm.classList.contains("hidden");
     const isActivePlusBtn = $plus.classList.contains("active");
@@ -139,7 +142,7 @@ export default class TodoSection extends Component {
       (todo) => todo.id === parseInt(this.$currentNode.dataset.id)
     );
 
-    if (!toSection || !fromSection || prevTodo || currentTodo)
+    if (!toSection || !fromSection || !currentTodo)
       return this.endDragAndDrop();
 
     const data = {
@@ -152,10 +155,12 @@ export default class TodoSection extends Component {
       prevTodo: prevTodo?.dataset?.id,
     };
 
-    requestMoveTodo(data).then(() => {
-      dispatchCutomEvent(`getSection${fromSection.dataset.id}`, fromSection);
-      dispatchCutomEvent(`getSection${toSection.dataset.id}`, toSection);
-    });
+    this.timer = setTimeout(() => {
+      requestMoveTodo(data).then(() => {
+        dispatchCutomEvent(`getSection${fromSection.dataset.id}`, fromSection);
+        dispatchCutomEvent(`getSection${toSection.dataset.id}`, toSection);
+      });
+    }, 100);
 
     this.endDragAndDrop();
     this.clearEvent();
@@ -235,12 +240,15 @@ export default class TodoSection extends Component {
         $item.className !== "start"
       ) {
         $item.parentNode.insertBefore(this.$currentNode, $item);
+        this.$prev = $item;
+        this.$moveStatus === "PREV";
       } else {
         $item.parentNode.insertBefore(this.$currentNode, $item.nextSibling);
+        this.$prev = this.$currentNode;
+        this.$moveStatus === "NEXT";
       }
       return;
     }
-
     if ($itemList) $itemList.appendChild(this.$currentNode);
   }
 
