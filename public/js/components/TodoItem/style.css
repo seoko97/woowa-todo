@@ -1,4 +1,10 @@
 .todo-item {
+  width: 100%;
+  padding: 8px 0;
+  border-radius: 8px;
+}
+
+.todo-item-inner {
   position: relative;
   width: 100%;
   display: flex;
@@ -8,13 +14,13 @@
 
   row-gap: 16px;
   padding: 14px;
-  margin: 10px 0;
   border-radius: 8px;
   background-color: #fff;
   user-select: none;
   cursor: move;
 }
-.todo-item.focus {
+
+.todo-item.focus > .todo-item-inner {
   border: 1px solid #0075de;
 }
 
@@ -36,6 +42,7 @@
 .todo-item.drag {
   position: absolute;
   margin: 0;
+  padding: 0;
   min-width: 288px;
   max-width: 288px;
   background-color: rgba(255, 255, 255, 0.8);
@@ -49,15 +56,15 @@
   opacity: 0.4;
 }
 
-.todo-item.delete {
+.todo-item.delete > .todo-item-inner {
   border: 1px solid #ff4343;
   background-color: #ffeeec;
 }
-.todo-item.delete > .icon.close > svg {
+.todo-item.delete .icon.close > svg {
   fill: #ff4343;
 }
 
-.todo-item > .icon {
+.todo-item .icon {
   position: absolute;
   top: 16px;
   right: 16px;

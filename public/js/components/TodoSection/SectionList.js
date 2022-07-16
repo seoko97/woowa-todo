@@ -15,7 +15,7 @@ export default class SectionList extends Component {
 
   setEvent() {
     this.$element.removeEventListener("click", this.onClickItem.bind(this));
-    this.addEvent("click", ".todo-item", this.onClickItem.bind(this));
+    this.addEvent("click", ".todo-item-inner", this.onClickItem.bind(this));
   }
 
   onClickItem(e) {
@@ -82,8 +82,6 @@ export default class SectionList extends Component {
   mount() {
     this.$element.innerHTML = "";
     const { todos } = this.$state;
-    const $start = document.createElement("li");
-    $start.classList = "start";
 
     new InputItem(
       this.$element,
@@ -93,8 +91,6 @@ export default class SectionList extends Component {
       { status: "CREATE", id: 0, title: "", description: "" },
       {}
     );
-
-    this.$element.append($start);
 
     this.$todos = todos.map((todo) => {
       switch (todo.status) {

@@ -42,6 +42,7 @@ export default class InputItem extends Component {
     const { status, title, description } = this.$state;
 
     this.$element.innerHTML = `
+    <div class="todo-item-inner">
       <div class="todo-item_content">
         <input value="${title}" class="title" name="title" placeholder="제목을 입력하세요"/>
         <textarea class="description" maxlength="500" name="description" placeholder="내용을 입력하세요">${description}</textarea>
@@ -50,6 +51,7 @@ export default class InputItem extends Component {
         <button class="button cancle">취소</button>
         <button class="button primary submit"></button>
       </div>
+    </div>
     `;
 
     this.$title = this.$element.querySelector("input.title");

@@ -17,6 +17,8 @@ export default class TodoSection extends Component {
   $hover;
   $mousemove;
   $prev;
+  $moveStatus;
+  timer;
   clicked;
 
   constructor($parent, $state, $props) {
@@ -47,6 +49,7 @@ export default class TodoSection extends Component {
         else this.onMouseDownItem(e);
       } else this.showEditForm(e);
     });
+
     createCustomEvent(
       `getSection${this.$props.section.id}`,
       this.$element,
@@ -63,10 +66,18 @@ export default class TodoSection extends Component {
       todoId: $todoItem.dataset.id,
       sectionId: this.$props.section.id,
       $section: this.$element,
+      $todoItem,
+      toggleTodoItem: this.toggleTodoItem.bind(this),
     });
+  }
+  toggleTodoItem($todoItem) {
+    $todoItem.classList.remove("delete");
   }
 
   showEditForm(e) {
+    clearTimeout(this.timer);
+    this.timer = null;
+
     const $clickedItem = e.target.closest(".todo-item");
     const newState = { ...this.$list.$state };
     const seletedTodo = newState.todos.find(
@@ -115,30 +126,24 @@ export default class TodoSection extends Component {
 
     if (!$section) return this.endDragAndDrop();
 
-    this.clicked = false;
+    const { pageX, pageY } = e;
 
-    if (this.$currentNode) {
-      this.$currentNode.classList.remove("place");
-      this.$currentNode.classList.remove("focus");
-    }
     if (this.$cloneNode) this.$cloneNode.remove();
     this.$cloneNode = null;
 
-    const { pageX, pageY } = e;
-
     const elemBelow = document.elementFromPoint(pageX, pageY);
-    if (!elemBelow) return this.endDragAndDrop();
-
     const todos = this.$state.todos;
 
     const fromSection = this.$element;
     const toSection = elemBelow.closest(".todo-section");
+
     const prevTodo = this.$currentNode.previousSibling;
     const currentTodo = todos.find(
       (todo) => todo.id === parseInt(this.$currentNode.dataset.id)
     );
 
-    if (!toSection || !fromSection) return this.endDragAndDrop();
+    if (!toSection || !fromSection || !currentTodo)
+      return this.endDragAndDrop();
 
     const data = {
       fromSection: fromSection.dataset,
@@ -150,14 +155,15 @@ export default class TodoSection extends Component {
       prevTodo: prevTodo?.dataset?.id,
     };
 
-    this.$currentNode = null;
+    this.timer = setTimeout(() => {
+      requestMoveTodo(data).then(() => {
+        dispatchCutomEvent(`getSection${fromSection.dataset.id}`, fromSection);
+        dispatchCutomEvent(`getSection${toSection.dataset.id}`, toSection);
+      });
+    }, 100);
 
+    this.endDragAndDrop();
     this.clearEvent();
-
-    requestMoveTodo(data).then(() => {
-      dispatchCutomEvent(`getSection${fromSection.dataset.id}`, fromSection);
-      dispatchCutomEvent(`getSection${toSection.dataset.id}`, toSection);
-    });
   }
   clearEvent() {
     document.body.removeEventListener("mousemove", this.$mousemove);
@@ -169,7 +175,7 @@ export default class TodoSection extends Component {
 
     if (e.button !== 0) return;
 
-    const $item = e.target.closest("li.todo-item");
+    const $item = e.target.closest(".todo-item");
 
     if (!$item) return;
 
@@ -219,38 +225,31 @@ export default class TodoSection extends Component {
 
     if (!elemBelow) return this.endDragAndDrop();
 
-    const li = elemBelow.closest("li");
-    const ul = elemBelow.closest("ul");
+    const $item = elemBelow.closest(".todo-item");
+    const $itemList = elemBelow.closest(".todo-section-ul");
+
+    if ($item?.classList.contains("create")) return;
 
     this.$hover.hidden = false;
     this.$hover.style.left = pageX - this.$cloneNode.offsetWidth / 2 + "px";
     this.$hover.style.top = pageY - this.$cloneNode.offsetHeight / 2 + "px";
 
-    if (li?.classList.contains("create")) return;
-
-    if (!li) {
-      if (ul) {
-        const start = ul.querySelector(".start");
-        const { top } = start.getBoundingClientRect();
-
-        if (top > pageY) {
-          start.parentNode.insertBefore(this.$currentNode, start.nextSibling);
-        } else {
-          ul.appendChild(this.$currentNode);
-        }
-      }
-    } else {
+    if ($item) {
       if (
-        isBeforeCurrentElement(this.$currentNode, li) &&
-        li.className !== "start"
+        isBeforeCurrentElement(this.$currentNode, $item) &&
+        $item.className !== "start"
       ) {
-        li.parentNode.insertBefore(this.$currentNode, li);
-        this.$prev = li;
-      } else if (li.parentNode) {
-        li.parentNode.insertBefore(this.$currentNode, li.nextSibling);
-        this.$prev = li.nextSibling;
+        $item.parentNode.insertBefore(this.$currentNode, $item);
+        this.$prev = $item;
+        this.$moveStatus === "PREV";
+      } else {
+        $item.parentNode.insertBefore(this.$currentNode, $item.nextSibling);
+        this.$prev = this.$currentNode;
+        this.$moveStatus === "NEXT";
       }
+      return;
     }
+    if ($itemList) $itemList.appendChild(this.$currentNode);
   }
 
   addTodoItem(item) {
