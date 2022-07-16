@@ -19,7 +19,7 @@ export default class SectionList extends Component {
   }
 
   onClickItem(e) {
-    const $item = e.target.closest(".todo-item-inner");
+    const $item = e.target.closest(".todo-item");
     const $button = e.target.closest(".button");
 
     if (!$button || !$item) return;
@@ -33,7 +33,7 @@ export default class SectionList extends Component {
   }
 
   getCurrentValue($current) {
-    const $todoItem = $current.closest(".todo-item-inner");
+    const $todoItem = $current.closest(".todo-item");
     const $titleInput = $todoItem.querySelector("input.title");
     const $descriptionInput = $todoItem.querySelector("textarea.description");
 
