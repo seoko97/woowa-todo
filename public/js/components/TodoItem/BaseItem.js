@@ -13,11 +13,13 @@ export default class BaseItem extends Component {
     const { title, description } = this.$state;
 
     this.$element.innerHTML = `
-        <span class="icon close">${CloseIcon}</span>
-        <div class="todo-item_content">
-          <h3 class="title">${title}</h3>
-          <p class="description">${description}</p>
-          <p class="author">author by web</>
+        <div class="todo-item-inner">
+          <span class="icon close">${CloseIcon}</span>
+          <div class="todo-item_content">
+            <h3 class="title">${title}</h3>
+            <p class="description">${description}</p>
+            <p class="author">author by web</>
+          </div>
         </div>
       `;
   }
