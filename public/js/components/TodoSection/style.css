@@ -1,18 +1,36 @@
 .todo-section {
-  min-width: 320px;
+  width: 20rem;
+  min-width: 20rem;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 8px;
+  padding: 0.5rem;
 }
 
 .todo-section-ul {
   width: 100%;
-  min-height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  overflow-y: auto;
+  max-height: calc(100% - 4rem);
+}
+
+.todo-section-ul::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.todo-section-ul::-webkit-scrollbar-thumb {
+  border: 0.125rem solid transparent;
+  border-radius: 9999px;
+  background: var(--colors-gray-500);
+  background-clip: padding-box;
+}
+
+.todo-section-ul::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .todo-section-header {
