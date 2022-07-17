@@ -3,3 +3,18 @@
   padding: 0 5rem 0 3rem;
   overflow-y: auto;
 }
+
+.log-list::-webkit-scrollbar {
+  width: 1rem;
+}
+
+.log-list::-webkit-scrollbar-thumb {
+  border: 4px solid transparent;
+  border-radius: 9999px;
+  background: var(--colors-gray-500);
+  background-clip: padding-box;
+}
+
+.log-list::-webkit-scrollbar-track {
+  background: transparent;
+}
