@@ -36,6 +36,18 @@ module.exports = {
         test: /\.svg$/i,
         loader: "svg-inline-loader",
       },
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              name: isProduction ? "[name].[ext]?[hash]" : "[name].[ext]",
+              limit: 8192,
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
