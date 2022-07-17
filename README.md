@@ -1,6 +1,5 @@
 # 우아한테크캠프 2주차 7조 TODO LIST
 
-<br />
 
 ## 👥 Team 7 이상림, 지석호
 
@@ -15,7 +14,7 @@
     <td align="center">
       <a href="https://github.com/sangrimlee" >
         <img src="https://avatars.githubusercontent.com/u/56021431?v=4" width="150px;" alt="이상림"/><br />
-        <sub><b>이상힘</b><br></sub>
+        <sub><b>이상림</b><br></sub>
       </a>
     </td>
   </tr>
